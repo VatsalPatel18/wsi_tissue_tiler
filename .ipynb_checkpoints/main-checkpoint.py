@@ -5,7 +5,7 @@ from slide_processor import SlideProcessor
 from TissueIdentifier import TissueIdentifier
 from transformers import CLIPImageProcessor
 
-def main(svs_file_path, tile_size, output_dir, max_workers):
+def main(svs_directory, tile_size, output_dir, max_workers):
     processor = SlideProcessor(tile_size=tile_size, overlap=0,output_dir=output_dir, max_workers=max_workers)
 
     clip_processor = CLIPImageProcessor.from_pretrained("./clip_img_processor")
@@ -38,5 +38,4 @@ if __name__ == "__main__":
                         help='Maximum number of worker threads/processes (default: 30).')
     args = parser.parse_args()
 
-    result = main(args.svs_file_path, args.tile_size, args.output_dir, args.max_workers)
-    print(f"Predicted value: {result}")
+    main(args.svs_directory, args.tile_size, args.output_dir, args.max_workers)
