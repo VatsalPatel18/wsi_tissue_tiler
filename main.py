@@ -6,22 +6,26 @@ from TissueIdentifier import TissueIdentifier
 from transformers import CLIPImageProcessor
 
 def main(svs_file_path, tile_size, output_dir, max_workers):
-    processor = SlideProcessor(tile_size=tile_size, overlap=0,,output_dir=output_dir, max_workers=max_workers)
-    tiles = processor.process_one_slide(svs_file_path)
-    
+    processor = SlideProcessor(tile_size=tile_size, overlap=0,output_dir=output_dir, max_workers=max_workers)
+
     clip_processor = CLIPImageProcessor.from_pretrained("./clip_img_processor")
     tc = TissueIdentifier('./tissue_identifier.pth',clip_processor)
-    tissue_tiles = tc.process_and_identify(tiles)
     
-    processor.save_tiles(tissue_tiles)
+    files = [os.path.join(svs_directory, f) for f in os.listdir(svs_directory) if f.endswith('.svs')]
+    
+    for file_path in files:
+        print(f"Processing: {file_path}")
+        tiles = processor.process_one_slide(file_path)
+        tissue_tiles = tc.process_and_identify(tiles)
+        processor.save_tiles(tissue_tiles)
 
     return 
 
 if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description='Process a single whole slide image.')
-    parser.add_argument('-i', '--svs_file_path', type=str, required=True,
-                        help='Path to the whole slide image file.')
+    parser.add_argument('-d', '--svs_directory', type=str, required=True,
+                        help='Directory containing whole slide image files.')
     parser.add_argument('-o', '--output_dir', type=str, required=True,
                         help='Directory to save the processed tiles.')
     parser.add_argument('-t', '--tile_size', type=int, default=1024,
