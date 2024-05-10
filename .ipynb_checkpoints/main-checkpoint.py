@@ -32,8 +32,8 @@ if __name__ == "__main__":
                         help='Size of the tile (default: 1024).')
     parser.add_argument('-v', '--overlap', type=int, default=0,
                         help='Overlap of tiles (default: 0).')
-    parser.add_argument('-th', '--tissue_threshold', type=float, default=0.65,
-                        help='Threshold for tissue detection (default: 0.65).')
+    parser.add_argument('-th', '--tissue_threshold', type=float, default=0.95,
+                        help='Threshold for tissue detection (default: 0.95).')
     parser.add_argument('-w', '--max_workers', type=int, default=30,
                         help='Maximum number of worker threads/processes (default: 30).')
     args = parser.parse_args()
