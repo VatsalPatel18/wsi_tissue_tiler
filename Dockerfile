@@ -1,28 +1,30 @@
 # Use an official Python runtime as a parent image
 FROM python:3.8-slim-buster
 
-# Set the working directory in the container to /app
+# Set the working directory in the container
 WORKDIR /app
 
-# Create a non-root user and switch to it
-RUN adduser --disabled-password --gecos '' myuser
-USER myuser
-
-# Copy only the necessary files
-COPY --chown=myuser:myuser requirements.txt slide_processor_parallel.py extract_one_wsi.py extract_multiple_wsi.py /app/
-
-# Switch to root to install dependencies
-USER root
+# Install system dependencies for OpenSlide and basic build tools
 RUN apt-get update && \
-    apt-get install -y build-essential openslide-tools && \
+    apt-get install -y build-essential openslide-tools libgl1-mesa-glx && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip install --no-cache-dir -r requirements.txt
+    rm -rf /var/lib/apt/lists/*
 
-# Switch back to the non-root user
+# Copy the local directory contents into the container at /app
+COPY ./ /app/
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Create a non-root user and switch to it for security reasons
+RUN adduser --disabled-password --gecos '' myuser
+
+# Change ownership of the /app directory to myuser
+RUN chown -R myuser:myuser /app
+
 USER myuser
 
-# Set the entrypoint to your script
-ENTRYPOINT ["python", "extract_multiple_wsi.py"]
-# Alternatively, set CMD to run your script, but this can be overridden by command line arguments
-# CMD ["python", "extract_multiple_wsi.py"]
+# No need to expose a port unless your application provides a web service
+EXPOSE 8888
+
+ENTRYPOINT ["python", "main.py"]
+# ENTRYPOINT ["python", "app.py"]
