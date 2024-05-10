@@ -1,7 +1,24 @@
+import torch
+import numpy as np
 import argparse
 from slide_processor import SlideProcessor
+from TissueIdentifier import TissueIdentifier
+from transformers import CLIPImageProcessor
 
-def main():
+def main(svs_file_path, tile_size, output_dir, max_workers):
+    processor = SlideProcessor(tile_size=tile_size, overlap=0,,output_dir=output_dir, max_workers=max_workers)
+    tiles = processor.process_one_slide(svs_file_path)
+    
+    clip_processor = CLIPImageProcessor.from_pretrained("./clip_img_processor")
+    tc = TissueIdentifier('./tissue_identifier.pth',clip_processor)
+    tissue_tiles = tc.process_and_identify(tiles)
+    
+    processor.save_tiles(tissue_tiles)
+
+    return 
+
+if __name__ == "__main__":
+    
     parser = argparse.ArgumentParser(description='Process a single whole slide image.')
     parser.add_argument('-i', '--svs_file_path', type=str, required=True,
                         help='Path to the whole slide image file.')
@@ -15,16 +32,7 @@ def main():
                         help='Threshold for tissue detection (default: 0.65).')
     parser.add_argument('-w', '--max_workers', type=int, default=30,
                         help='Maximum number of worker threads/processes (default: 30).')
-
     args = parser.parse_args()
 
-    processor = SlideProcessor(
-        tile_size=args.tile_size,
-        overlap=args.overlap,
-        tissue_threshold=args.tissue_threshold,
-        max_workers=args.max_workers
-    )
-    processor.process_one_slide(args.svs_file_path, output_dir=args.output_dir)
-
-if __name__ == '__main__':
-    main()
+    result = main(args.svs_file_path, args.tile_size, args.output_dir, args.max_workers)
+    print(f"Predicted value: {result}")
