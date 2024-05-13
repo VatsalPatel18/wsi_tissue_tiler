@@ -1,3 +1,7 @@
+import torch
+import numpy as np
+from TissueIdentifierModel import TissueIdentifierModel
+
 class TissueIdentifier:
     def __init__(self, model_path: str, img_processor, threshold: float = 0.95, device='cpu'):
         self.model = self.load_model(model_path)

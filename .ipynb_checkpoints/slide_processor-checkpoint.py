@@ -1,6 +1,7 @@
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor
-#import pandas as pd
+from PIL import Image
+import PIL
 import matplotlib.pyplot as plt
 import os
 import openslide
@@ -43,7 +44,7 @@ class SlideProcessor:
         if not os.path.exists(self.output_dir):
             os.makedirs(self.output_dir)
         for (col, row), tile in tiles.items():
-            img = Image.fromarray(tile)
+            img = PIL.Image.fromarray(tile)
             file_path = os.path.join(self.output_dir, f'tile_{col}_{row}.jpeg')
             img.save(file_path)
             print(f"Saved tile to {file_path}")
