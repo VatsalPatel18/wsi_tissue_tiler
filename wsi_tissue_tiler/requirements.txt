@@ -6,3 +6,6 @@ scikit-image==0.18.1
 tqdm==4.62.3
 # jupyterlab==3.2.1
 Pillow==8.1.2
+torch==2.0.1
+transformers==4.33.2
+#safetensors==0.3.3

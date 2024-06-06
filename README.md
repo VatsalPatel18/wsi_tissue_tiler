@@ -1,56 +1,19 @@
 # WSI Tissue Tiler
 
-This project processes whole slide images (WSI) to extract tissue tiles using parallel processing. It utilizes the `SlideProcessor` class to handle the image processing efficiently.
+[![PyPI Version](https://img.shields.io/pypi/v/wsi-tissue-tiler)](https://pypi.org/project/wsi-tissue-tiler/) [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/VatsalPatel18/wsi_tissue_tiler)
 
-## Getting Started
+This Python package provides tools for efficient processing of Whole Slide Images (WSIs) in the SVS format. It allows you to extract smaller tiles from large WSIs, making it easier to analyze and process these images for various tasks like tissue identification and classification.
 
-These instructions will guide you through the setup and execution of the WSI Tissue Tiler, including the use of the Docker container.
+## Features
 
-### Prerequisites
+- **Tile Extraction:** Divide large WSIs into smaller tiles of a specified size.
+- **Tissue Identification (Optional):** Utilize a pre-trained model to identify and isolate tissue regions within the tiles (requires additional dependencies).
 
-- Docker
-- Python 3.8 or later
-- Git
+## Installation
 
-## Method 1: Using Docker
-
-If you want to start quickly, you can pull the ready-made Docker image and run it.
-
-### Using Pre-Built Docker
-
-Pull the Docker image from Docker Hub with the following command:
+You can install `wsi-tissue-tiler` using `pip`:
 
 ```bash
-docker pull vatsalpatel18/wsi_tissue_tiler:latest
+pip install wsi-tissue-tiler
 ```
-## Method 2: Manual Setup
 
-### Clone the Repository
-First, clone this repository to your local machine:
-```bash
-git clone git@github.com:VatsalPatel18/wsi_tissue_tiler.git
-cd wsi_tissue_tiler
-```
-### Build and Run Docker Container
-Build the Docker Image
-```bash
-docker build -t wsi_tissue_tiler:latest .
-```
-Run the Docker container:
-For Jupyter lab:
-```bash
-docker run -p 7878:7878 -v /path/to/WSI:/app/WSI -v /path/to/outputs:/app/outputs wsi_tissue_tiler
-```
-For Unix Systems:
-```bash
-docker run -v /path/to/WSI:/app/WSI -v /path/to/outputs:/app/outputs wsi_tissue_tiler process_wsi -d /app/WSI -o /app/outputs -w 60
-```
-Replace /path/to/WSI and /path/to/outputs with the actual paths to your data and output directories on your host machine.
-
-### Parameters
--d, --directory: Directory containing whole slide image files.
--o, --output_dir: Directory to save the processed tiles.
--t, --tile_size: Size of the tile (default: 1024).
--v, --overlap: Overlap of tiles (default: 0).
--th, --tissue_threshold: Threshold for tissue detection (default: 0.65).
--w, --max_workers: Maximum number of worker threads/processes (default: 30).

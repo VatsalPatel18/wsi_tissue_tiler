@@ -1,0 +1,22 @@
+# Poetry-specific files and directories
+poetry.lock
+*.egg-info
+.venv/  # Virtual environment directory (adjust if your environment is named differently)
+
+# PyPI distributions
+dist/
+
+# Editor and IDE files
+*.swp
+*.swo
+*.pyc
+__pycache__/
+.vscode/
+.idea/
+
+# Data and output files (adjust to your needs)
+*.npy
+*.pkl
+data/  
+output/
+temp

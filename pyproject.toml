@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "wsi-tissue-tiler"
+version = "0.1.0"
+description = "It makes small patches / tiles of large whole slide images available in svs format."
+authors = ["Vatsal Patel <vatsal1804@gmail.com>"]
+license = "CC-BY-NC-SA-4.0"
+readme = "README.md"
+packages = [{ include = "wsi_tissue_tiler" }]
+include = [
+    		{ path = "clip_img_processor" },
+    		{ path = "tissue_identifier.pth" }
+	]
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.26.4"
+pandas = "^2.2.2"
+matplotlib = "^3.9.0"
+openslide-python = "^1.3.1"
+scikit-image = "^0.23.2"
+tqdm = "^4.66.4"
+pillow = "^10.3.0"
+torch = "^2.3.1"
+transformers = "^4.41.2"
+
+[tool.poetry.scripts]
+wsi-tissue-tiler = "wsi_tissue_tiler.main:main"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
