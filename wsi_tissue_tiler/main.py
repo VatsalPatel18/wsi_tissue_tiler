@@ -1,7 +1,7 @@
 import os
 import argparse
-from slide_processor import SlideProcessor
-from TissueIdentifier import TissueIdentifier
+from wsi_tissue_tiler.slide_processor import SlideProcessor
+from wsi_tissue_tiler.TissueIdentifier import TissueIdentifier
 from transformers import CLIPImageProcessor
 
 def main(svs_directory, tile_size, output_dir, max_workers):

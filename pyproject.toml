@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wsi-tissue-tiler"
-version = "0.1.0"
+version = "0.1.1"
 description = "It makes small patches / tiles of large whole slide images available in svs format."
 authors = ["Vatsal Patel <vatsal1804@gmail.com>"]
 license = "CC-BY-NC-SA-4.0"
